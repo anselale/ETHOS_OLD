@@ -16,29 +16,21 @@ class SearchAgent:
         logger.set_level('debug')
 
     def run_agent(self, text, feedback=None):
-        # This function will be the main entry point for your agent.
         logger.log(f"Running Agent...", 'info')
 
-        # 2. Load data from storage
         data = self.load_data_from_storage()
 
-        # 3. Get prompt formats
         prompt_formats = self.get_prompt_formats(data)
 
-        # 4. Generate prompt
         prompt = self.generate_prompt(prompt_formats, feedback)
 
-        # 5. Execute the main task of the agent
         with self.agent_funcs.thinking():
             result = self.execute_task(prompt)
 
-        # 6. Save the results
         self.save_results(result)
 
-        # 7. Stop Console Feedback
         self.agent_funcs.stop_thinking()
 
-        # 8. Print the result or any other relevant information
         self.agent_funcs.print_result(result)
 
         logger.log(f"Agent Done!", 'info')
@@ -59,7 +51,6 @@ class SearchAgent:
 
     def generate_prompt(self, prompt_formats, feedback=None):
         # Generate the prompt using prompt_formats and return it.
-        # Load Prompts
         system_prompt = self.agent_data['prompts']['SystemPrompt']
         context_prompt = self.agent_data['prompts']['ContextPrompt']
         instruction_prompt = self.agent_data['prompts']['InstructionPrompt']
@@ -76,7 +67,6 @@ class SearchAgent:
             {"role": "user", "content": f"{context_prompt}{instruction_prompt}{feedback_prompt}"}
         ]
 
-        # print(f"\nPrompt: {prompt}")
         return prompt
         pass
 

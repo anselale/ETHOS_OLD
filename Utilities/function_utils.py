@@ -90,11 +90,6 @@ class Functions:
         for t in task_list:
             print(str(t["task_order"]) + ": " + t["task_desc"])
 
-    # def print_next_task(self, task):
-    #     # Print the next task
-    #     print("\033[92m\033[1m" + "\n*****NEXT TASK*****\n" + "\033[0m\033[0m")
-    #     print(str(task["task_order"]) + ": " + task["task_desc"])
-
     def print_result(self, result, desc):
         # Print the task result
         # print("\033[92m\033[1m" + "\n*****RESULT*****\n" + "\033[0m\033[0m")

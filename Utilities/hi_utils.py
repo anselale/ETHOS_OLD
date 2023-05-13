@@ -19,17 +19,12 @@ class HiUtils:
 
         self.set_url(self.path, extension)
 
-        # print(f"\nJson object: {data}")
         response = requests.put(self.url, data=json.dumps(data), headers=self.headers)
 
-        # if response.status_code == 200:
-        #     print("Success!")
-        #     print(response.text)
-        # else:
-        #     print(f"Error: {response.status_code}")
-        #     print(response.text)
-
-        # print(f"\n\nResponse: {response.text}")
+        if response.status_code != 200:
+            print(f"Error: {response.status_code}")
+            print(response.text)
+            quit()
 
         return response.text
 

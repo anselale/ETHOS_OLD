@@ -24,15 +24,9 @@ class HeuristicComparatorAgent:
 
         data = {"seta": seta, "setb": setb, "setc": setc}
 
-        # logger.log(f"Data:\n{data}", 'debug')
-
         prompt_formats = self.get_prompt_formats(data)
 
-        # logger.log(f"Prompt Formats:\n{prompt_formats}", 'debug')
-
         prompt = self.generate_prompt(prompt_formats, feedback)
-
-        # logger.log(f"Prompt:\n{prompt}", 'debug')
 
         # Execute task
         with self.agent_funcs.thinking():
@@ -41,8 +35,6 @@ class HeuristicComparatorAgent:
         self.agent_funcs.stop_thinking()
 
         parsed_data = self.parse_output(result, botid, data)
-
-        # logger.log(f"Parsed Data: {parsed_data}", 'debug')
 
         self.save_results(parsed_data)
 
@@ -69,24 +61,18 @@ class HeuristicComparatorAgent:
 
     def generate_prompt(self, prompt_formats, feedback=None):
         # Generate the prompt using prompt_formats and return it.
-        # Load Prompts
         system_prompt = self.agent_data['prompts']['SystemPrompt']
         context_prompt = self.agent_data['prompts']['ContextPrompt']
         instruction_prompt = self.agent_data['prompts']['InstructionPrompt']
-        # feedback_prompt = self.agent_data['prompts']['FeedbackPrompt'] if feedback != "" else ""
 
         # Format Prompts
-        # system_prompt = system_prompt.format(**prompt_formats.get('SystemPrompt', {}))
         context_prompt = context_prompt.format(**prompt_formats.get('ContextPrompt', {}))
-        # instruction_prompt = instruction_prompt.format(**prompt_formats.get('InstructionPrompt', {}))
-        # feedback_prompt = feedback_prompt.format(feedback=feedback)
 
         prompt = [
             {"role": "system", "content": f"{system_prompt}"},
             {"role": "user", "content": f"{instruction_prompt}{context_prompt}"}
         ]
 
-        # print(f"\nPrompt: {prompt}")
         return prompt
 
     def execute_task(self, prompt):

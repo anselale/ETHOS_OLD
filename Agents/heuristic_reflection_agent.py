@@ -24,15 +24,9 @@ class HeuristicReflectionAgent:
 
         data = {"seta": seta, "setb": setb}
 
-        # logger.log(f"Data:\n{data}", 'debug')
-
         prompt_formats = self.get_prompt_formats(data)
 
-        # logger.log(f"Prompt Formats:\n{prompt_formats}", 'debug')
-
         prompt = self.generate_prompt(prompt_formats, feedback)
-
-        # logger.log(f"Prompt:\n{prompt}", 'debug')
 
         # Execute task
         with self.agent_funcs.thinking():
@@ -42,11 +36,8 @@ class HeuristicReflectionAgent:
 
         parsed_data = self.parse_output(result, botid, data)
 
-        # logger.log(f"Parsed Data: {parsed_data}", 'debug')
-
         self.save_results(parsed_data)
 
-        # 8. Print the result or any other relevant information
         self.agent_funcs.print_result(parsed_data)
 
         return parsed_data
@@ -54,41 +45,30 @@ class HeuristicReflectionAgent:
     def get_prompt_formats(self, data):
         # Create a dictionary of prompt formats based on the loaded data
         prompt_formats = {
-            # 'SystemPrompt': {'objective': self.agent_data['objective']},
             'ContextPrompt': {'seta': data['seta'], 'setb': data['setb']}
         }
         return prompt_formats
 
     def generate_prompt(self, prompt_formats, feedback=None):
         # Generate the prompt using prompt_formats and return it.
-        # Load Prompts
         system_prompt = self.agent_data['prompts']['SystemPrompt']
         context_prompt = self.agent_data['prompts']['ContextPrompt']
         instruction_prompt = self.agent_data['prompts']['InstructionPrompt']
-        # feedback_prompt = self.agent_data['prompts']['FeedbackPrompt'] if feedback != "" else ""
 
         # Format Prompts
-        # system_prompt = system_prompt.format(**prompt_formats.get('SystemPrompt', {}))
         context_prompt = context_prompt.format(**prompt_formats.get('ContextPrompt', {}))
-        # instruction_prompt = instruction_prompt.format(**prompt_formats.get('InstructionPrompt', {}))
-        # feedback_prompt = feedback_prompt.format(feedback=feedback)
 
         prompt = [
             {"role": "system", "content": f"{system_prompt}"},
             {"role": "user", "content": f"{instruction_prompt}{context_prompt}"}
         ]
 
-        # print(f"\nPrompt: {prompt}")
         return prompt
 
     def execute_task(self, prompt):
         return self.agent_data['generate_text'](prompt, self.agent_data['model'], self.agent_data['params']).strip()
 
     def parse_output(self, result, botid, data):
-        # criteria = result.split("MEETS CRITERIA: ")[1].split("\n")[0].lower()
-        # edit = result.split("RECOMMENDED EDIT: ")[1].split("\n")[0].lower()
-        # response = result.split("RESPONSE: ")[1].strip()
-
         if "MEETS CRITERIA: " in result:
             criteria = result.split("MEETS CRITERIA: ")[1].split("\n")[0].lower()
         else:

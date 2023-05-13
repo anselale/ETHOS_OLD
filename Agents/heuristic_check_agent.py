@@ -24,15 +24,9 @@ class HeuristicCheckAgent:
 
         data = {"seta": seta, "setb": setb}
 
-        # logger.log(f"Data:\n{data}", 'debug')
-
         prompt_formats = self.get_prompt_formats(data)
 
-        # logger.log(f"Prompt Formats:\n{prompt_formats}", 'debug')
-
         prompt = self.generate_prompt(prompt_formats, feedback)
-
-        # logger.log(f"Prompt:\n{prompt}", 'debug')
 
         # Execute task
         with self.agent_funcs.thinking():
@@ -42,13 +36,10 @@ class HeuristicCheckAgent:
 
         parsed_data = self.parse_output(result, botid, data)
 
-        # print(f"\nParsed Data: {parsed_data}")
-
         self.agent_funcs.print_result(parsed_data)
 
         self.save_results(parsed_data)
 
-        # 8. Print the result or any other relevant information
         self.agent_funcs.print_result(parsed_data)
 
         return parsed_data
@@ -68,19 +59,16 @@ class HeuristicCheckAgent:
         system_prompt = self.agent_data['prompts']['SystemPrompt']
         context_prompt = self.agent_data['prompts']['ContextPrompt']
         instruction_prompt = self.agent_data['prompts']['InstructionPrompt']
-        # feedback_prompt = self.agent_data['prompts']['FeedbackPrompt'] if feedback != "" else ""
 
         # Format Prompts
 
         context_prompt = context_prompt.format(**prompt_formats.get('ContextPrompt', {}))
-        # feedback_prompt = feedback_prompt.format(feedback=feedback)
 
         prompt = [
             {"role": "system", "content": f"{system_prompt}"},
             {"role": "user", "content": f"{instruction_prompt}{context_prompt}"}
         ]
 
-        # print(f"\nPrompt: {prompt}")
         return prompt
 
     def parse_output(self, result, botid, data):

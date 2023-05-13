@@ -100,12 +100,9 @@ class AgentFunctions:
         self.spinner_thread.join()
 
         # Clear spinner characters
-        # msg = f"{self.agent_data['name']}: Thinking "
-        # sys.stdout.write("\b" * len(msg + "\\"))
         sys.stdout.write("\b" * 1)
 
-        # Write "Done." message and flush stdout
-        # sys.stdout.write("\n" + msg + "- Done.\n")
+        # Flush stdout
         sys.stdout.write("\n")
         sys.stdout.flush()
 
