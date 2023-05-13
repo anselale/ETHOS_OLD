@@ -1,0 +1,10 @@
+openai~=0.27.6
+requests~=2.30.0
+python-dotenv~=1.0.0
+spacy~=3.5.2
+google-api-python-client
+beautifulsoup4~=4.12.2
+chromadb~=0.3.22
+keyboard~=0.13.5
+termcolor~=2.3.0
+Flask~=2.3.2
